@@ -16,7 +16,7 @@ applications instrumented with [OpenCensus] to export stats to [Zenoss].
 
 You can install this library into your GOPATH with the following command.
 
-```
+```shell script
 go get -u github.com/zenoss/opencensus-go-exporter-zenoss
 ```
 
@@ -29,29 +29,38 @@ registering the exporter.
 package main
 
 import (
-    "go.opencensus.io/stats/view"
-    zenoss "github.com/zenoss/opencensus-go-exporter-zenoss"
+	// OpenCensus packages.
+	"go.opencensus.io/stats/view"
+
+	// Zenoss helper for sending directly to a single API endpoint.
+	"github.com/zenoss/zenoss-go-sdk/endpoint"
+
+	// Zenoss OpenCensus exporter.
+	"github.com/zenoss/opencensus-go-exporter-zenoss/zenoss"
+)
+
+const (
+    ZenossAPIKey = "YOUR-API-KEY"
+    ZenossSource = "YOUR-APPLICATION"
 )
 
 func main() {
-    options := zenoss.Options{
-        APIKey: "YOUR-ZENOSS-API-KEY",
+	// Create a Zenoss API client to which we'll send metrics. 
+	client, _ := endpoint.New(endpoint.Config{APIKey: ZenossAPIKey})
 
-        // GlobalDimensions are added to all sent metrics and models.
-        GlobalDimensions: map[string]string{"source": "YOUR-APP-NAME"},
+    // Create Zenoss OpenCensus exporter.
+    exporter, _ := zenoss.NewExporter(zenoss.Options{
+        Output: client,
+        Source: ZenossSource,
+    })
 
-        // ModelDimensionTags selects OpenCensus stats tags to use as Zenoss dimensions.
-        ModelDimensionTags: []string{"grpc_server_method", "grpc_server_status"},
-    }
-
-    exporter, err := zenoss.NewExporter(options)
-    if err != nil {
-        panic(err)
-    }
-
+    // Register Zenoss OpenCensus exporter. 
     view.RegisterExporter(exporter)
 
     // Instrument your application with OpenCensus stats.
+
+    // Flush client before exiting to send any buffered metrics.
+    client.Flush()
 }
 ```
 

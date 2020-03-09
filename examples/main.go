@@ -7,11 +7,15 @@ import (
 	"os"
 	"time"
 
+	// OpenCensus packages.
 	"go.opencensus.io/stats"
 	"go.opencensus.io/stats/view"
 	"go.opencensus.io/tag"
 
-	zenoss "github.com/zenoss/opencensus-go-exporter-zenoss"
+	// Helper for sending directly to a single Zenoss API endpoint.
+	"github.com/zenoss/zenoss-go-sdk/endpoint"
+
+	"github.com/zenoss/opencensus-go-exporter-zenoss/zenoss"
 )
 
 var (
@@ -34,24 +38,14 @@ func main() {
 		log.Fatal("ZENOSS_SOURCE environment variable must be set.")
 	}
 
-	exporterOptions := zenoss.Options{
-		APIKey: apiKey,
-
-		// GlobalDimensions are added to all sent metrics and models.
-		GlobalDimensions: map[string]string{"source": source},
-
-		// ModelDimensionTags selects OpenCensus stats tags to use as Zenoss dimensions.
-		ModelDimensionTags: []string{serviceTagKey.Name()},
-
-		// Metric names matching these regular expressions won't be sent to Zenoss.
-		IgnoredMetricNames: []string{},
+	// Create a Zenoss API endpoint to which we'll send metrics.
+	client, err := endpoint.New(endpoint.Config{APIKey: apiKey})
+	if err != nil {
+		log.Fatal(err)
 	}
 
-	// Only override address if it's set in the environment.
-	if zenossAddress := os.Getenv("ZENOSS_ADDRESS"); zenossAddress != "" {
-		exporterOptions.Address = zenossAddress
-	}
-
+	// Create the Zenoss OpenCensus exporter.
+	exporterOptions := zenoss.Options{Output: client, Source: source}
 	exporter, err := zenoss.NewExporter(exporterOptions)
 	if err != nil {
 		log.Fatal(err)
