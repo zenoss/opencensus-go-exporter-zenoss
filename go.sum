@@ -85,8 +85,11 @@ github.com/stretchr/testify v1.5.1/go.mod h1:5W2xD1RspED5o8YsWQXVCued0rvSQ+mT+I5
 github.com/vektra/mockery v0.0.0-20181123154057-e78b021dcbb5/go.mod h1:ppEjwdhyy7Y31EnHRDm1JkChoC7LXIJ7Ex0VYLWtZtQ=
 github.com/zenoss/zenoss-go-sdk v0.1.0 h1:8j12vdQfsXyJcYwd1o/Hsa7P/yzD9PQUgTW+yLs6m9E=
 github.com/zenoss/zenoss-go-sdk v0.1.0/go.mod h1:sLjV2bivV0opAbu31ocJOh16VQsC1AfIwlo5dCMFpUM=
+github.com/zenoss/zenoss-go-sdk v1.0.0 h1:6hSEzbzdO+Ni8kXSyF4NDjHUm40GNRRk3z5V/gecz7w=
+github.com/zenoss/zenoss-go-sdk v1.0.0/go.mod h1:ufzgnj1eOR6RyEDbIVawWh7xTmq4GHcR6o2C5WJITjA=
 github.com/zenoss/zenoss-protobufs v0.0.0-20200404204527-306bc2cc890b h1:uKizj3istbr5/B3jFbFv82rnhOiMTNbZGfOsvWU4QpY=
 github.com/zenoss/zenoss-protobufs v0.0.0-20200404204527-306bc2cc890b/go.mod h1:X8o9k0RVd1pIwM+tQwf1kKPPYj+vIiJfMku+HxYs/8w=
+github.com/zenoss/zenoss-protobufs v1.0.0/go.mod h1:vHQdAOpLdwaLjVUnk5jByyrW6LXZBaS0h/G+ttiFMac=
 go.opencensus.io v0.21.0/go.mod h1:mSImk1erAIZhrmZN+AvHh14ztQfjbGwt4TtuofqLduU=
 go.opencensus.io v0.22.3 h1:8sGtKOrtQqkN1bp2AtX+misvLIlOmsEsNd+9NIcPEm8=
 go.opencensus.io v0.22.3/go.mod h1:yxeiOL68Rb0Xd1ddK5vPZ/oVn4vY4Ynel7k9FzqtOIw=
